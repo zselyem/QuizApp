@@ -1,0 +1,13 @@
+﻿@model Dictionary<string,string>
+
+<table class="table table-borderless">
+    @foreach (var m in Model)
+    {
+        <tr>
+            <td class="text-center">
+                <a class="btn btn-lg btn-secondary" href="@Url.Action("Quiz","Quiz",new{category = m.Value})">@m.Key</a>
+            </td>
+        </tr>
+    }
+</table>
+

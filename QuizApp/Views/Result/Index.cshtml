@@ -1,0 +1,61 @@
+﻿@model List<QuizApp.Models.Test>
+<div class="text-center align-content-center">
+    <table class="text-center col-md-8 col-sm-8 table">
+        <thead class="text-capitalize text-lg">
+            <tr>
+                <th>Név</th>
+                <th>Étterem</th>
+                <th>Kategória</th>
+                <th>Helyes válaszok</th>
+                <th>Teszt időpontja</th>
+                <th>Megfelelt</th>
+                <th>Megtekintés</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var test in Model)
+            {
+                <tr class="text-center">
+                    <td>
+                        <div class="">@test.Name</div>
+                    </td>
+                    <td>
+                        <div class="">@test.Restaurant</div>
+                    </td>
+                    <td>
+                        <div class="">@test.Category</div>
+                    </td>
+                    <td>
+                        <div class="">@test.CorrectAnswers</div>
+                    </td>
+                    <td>
+                        <div class="">@test.Date</div>
+                    </td>
+                    @if (test.Passed == true)
+                    {
+                        <td>
+                            <div class="text-success">Megfelelt</div>
+                        </td>
+                    }
+                    else if(test.Passed == false)
+                    {
+                        <td>
+                            <div class="text-danger">Nem felelt meg</div>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <div class="text-secondary">Értékelésre vár</div>
+                        </td>
+                    }
+
+                    <td>
+                        <div class="btn btn-secondary">Megtekintés</div>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

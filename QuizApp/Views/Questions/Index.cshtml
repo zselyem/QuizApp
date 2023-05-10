@@ -1,0 +1,53 @@
+﻿@model List<QuizApp.Models.Question>
+    <header class="text-end">
+        <a class="btn btn-primary text-end" href="@Url.Action("Create", "Questions")">Új kérdés</a>
+    </header>
+    <div class="text-center align-content-center">
+        <table class="text-center col-md-8 col-sm-8 table">
+            <thead class="text-capitalize text-lg">
+                <tr>
+                    <th>Kérdés</th>
+                    <th>Első válasz</th>
+                    <th>Második válasz</th>
+                    <th>Harmadik válasz</th>
+                    <th>Negyedik válasz</th>
+                    <th>Helyes válasz</th>
+                    <th>Szerkesztés</th>
+                    <th>Törlés</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var question in Model)
+{
+                <tr class="text-center">
+                    <th>
+                        <div class="">@question.Question1</div>
+                    </th>
+                    <th>
+                        <div class="">@question.FirstAnswer</div>
+                    </th>
+                    <th>
+                        <div class="">@question.SecondAnswer</div>
+                    </th>
+                    <th>
+                        <div class="">@question.ThirdAnswer</div>
+                    </th>
+                    <th>
+                        <div class="">@question.FourthAnswer</div>
+                    </th>
+                    <th>
+                        <div class="">@question.CorrectAnswer</div>
+                    </th>
+                    <th>
+                        <a class="btn btn-primary" href="@Url.Action("Edit", "Questions", new {Id = question.Id})">Szerkesztés</a>
+                    </th>
+                    <th>
+                        <a class="btn btn-danger" href="@Url.Action("Delete", "Questions", new {Id = question.Id})">Törlés</a>
+                    </th>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+

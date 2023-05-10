@@ -1,0 +1,186 @@
+﻿@model QuizApp.Models.Question
+@{
+    ViewData["Title"] = "Új kérdés";
+}
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card-header">
+                        <h4 class="m-0">Kérdés adatai</h4>
+                    </div>
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="Question1" class="control-label mt-2 float-end">Kérdés:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="Question1" class="form-control">
+                                        <span asp-validation-for="Question1" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="FirstAnswer" class="control-label mt-2 float-end">Első válasz:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="FirstAnswer" class="form-control">
+                                        <span asp-validation-for="FirstAnswer" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="SecondAnswer" class="control-label mt-2 float-end">Második válasz: </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="SecondAnswer" class="form-control">
+                                        <span asp-validation-for="SecondAnswer" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="ThirdAnswer" class="control-label mt-2 float-end">Harmadik válasz: </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="ThirdAnswer" class="form-control">
+                                        <span asp-validation-for="ThirdAnswer" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="FourthAnswer" class="control-label mt-2 float-end">Negyedik válasz: </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="FourthAnswer" class="form-control">
+                                        <span asp-validation-for="FourthAnswer" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="CorrectAnswer" class="control-label mt-2 float-end">Helyes válasz: </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="CorrectAnswer" class="form-control">
+                                        <span asp-validation-for="CorrectAnswer" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="IsBarterBeginnerQuestion" class="control-label mt-2 float-end">Pultos alapteszt: </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="checkbox" asp-for="IsBarterBeginnerQuestion">
+                                        <span asp-validation-for="IsBarterBeginnerQuestion" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="IsBarterAdvancedQuestion" class="control-label mt-2 float-end">Pultos haladó teszt: </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="checkbox" asp-for="IsBarterAdvancedQuestion">
+                                        <span asp-validation-for="IsBarterAdvancedQuestion" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="IsServerBeginnerQuestion" class="control-label mt-2 float-end">Felszolgáló alapteszt: </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="checkbox" asp-for="IsServerBeginnerQuestion">
+                                        <span asp-validation-for="IsServerBeginnerQuestion" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="IsServerAdvancedQuestion" class="control-label mt-2 float-end">Felszolgáló haladó teszt: </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="checkbox" asp-for="IsServerAdvancedQuestion">
+                                        <span asp-validation-for="IsServerAdvancedQuestion" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="IsCashierQuestion" class="control-label mt-2 float-end">Kasszás teszt: </label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input type="checkbox" asp-for="IsCashierQuestion">
+                                        <span asp-validation-for="IsCashierQuestion" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        
+
+
+                        <div class="form-group text-center">
+                            <button asp-controller="Questions" asp-action="Create" formmethod="post" class="btn btn-primary">Létrehozás</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

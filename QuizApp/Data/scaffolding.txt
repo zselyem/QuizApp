@@ -1,0 +1,335 @@
+﻿dotnet ef  dbcontext scaffold "Server=sigmundselinum.com;Database=sigmunds_QuizApp;User ID=sigmunds_Sigmund;Password=uaVahghe40;" Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+
+ Scaffold-DbContext "Server=sigmundselinum.com;User ID=sigmunds_Sigmund;Password=uaVahghe40;Database=sigmunds_QuizApp;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force
+
+
+
+
+
+ using Microsoft.EntityFrameworkCore;
+using ResAirvation.Common.DAL.ResAirVationDb;
+
+namespace ResAirvation.Common.BLL
+{
+    public class CouponBLL : ICouponBLL
+    {
+        private readonly ResAirvationContext _context;
+
+        public CouponBLL(
+            ResAirvationContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<List<Coupon>> GetCouponsAsync()
+        {
+            return await _context.Coupons.ToListAsync();
+        }
+
+        public async Task<Coupon> GetCouponByIdAsync(long id)
+        {
+            var coupon = await _context.Coupons.Where(_ => _.Id == id).FirstOrDefaultAsync();
+            return coupon;
+        }
+
+        public async Task<Coupon> UpdateCouponsByIdAsync(long id, Coupon coupon)
+        {
+            var originalCoupon = _context.Coupons.Find(id);
+
+            originalCoupon.CouponCode = coupon.CouponCode;
+            originalCoupon.ValidFrom = coupon.ValidFrom;
+            originalCoupon.ValidTo = coupon.ValidTo;
+            originalCoupon.DiscountPercent = coupon.DiscountPercent;
+            originalCoupon.IsActive = coupon.IsActive;
+            originalCoupon.MaxUsage = coupon.MaxUsage;
+            originalCoupon.DiscountFromDays = coupon.DiscountFromDays;
+            originalCoupon.DiscountToDays = coupon.DiscountToDays;
+
+            await _context.SaveChangesAsync();
+
+            return originalCoupon;
+        }
+
+        public async Task<Coupon> CreateCoupon(Coupon coupon)
+        {
+            _context.Add(coupon);
+            await _context.SaveChangesAsync();
+
+            return coupon;
+        }
+
+        public async Task<Coupon> DeleteCouponsByIdAsync(long id)
+        {
+            var result = new Coupon();
+            var couponToDelete = _context.Coupons.Find(id);
+
+            _context.Coupons.Remove(couponToDelete);
+
+            await _context.SaveChangesAsync();
+
+            return result;
+
+        }
+
+        public async Task<List<IntervallDiscount>> GetIntervallDiscountsAsync()
+        {
+            return await _context.IntervallDiscounts.ToListAsync();
+        }
+
+        public async Task<IntervallDiscount> CreateIntervallDiscountAsync(IntervallDiscount intervallDiscount)
+        {
+            _context.Add(intervallDiscount);
+            await _context.SaveChangesAsync();
+            return intervallDiscount;
+        }
+
+        public async Task<IntervallDiscount> GetIntervallDiscountByIdAsync(long id)
+        {
+            var intervallDiscount = await _context.IntervallDiscounts.Where(_ => _.Id == id).FirstOrDefaultAsync();
+            return intervallDiscount;
+        }
+
+        public async Task<IntervallDiscount> EditIntervallDiscountAsync(long id, IntervallDiscount intervallDiscount)
+        {
+            var originalIntervallDiscount = await _context.IntervallDiscounts.Where(_ => _.Id == id).FirstOrDefaultAsync();
+
+            originalIntervallDiscount.DateFrom = intervallDiscount.DateFrom;
+            originalIntervallDiscount.DateTo = intervallDiscount.DateTo;
+            originalIntervallDiscount.PriceCorrectionPercent = intervallDiscount.PriceCorrectionPercent;
+            originalIntervallDiscount.Note = intervallDiscount.Note;
+
+            await _context.SaveChangesAsync();
+
+            return originalIntervallDiscount;
+        }
+
+        public async Task<IntervallDiscount> DeleteIntervallDiscountByIdAsync(long id)
+        {
+            var result = new IntervallDiscount();
+            var intervallDiscountToDelete = _context.IntervallDiscounts.Find(id);
+
+            _context.IntervallDiscounts.Remove(intervallDiscountToDelete);
+
+            await _context.SaveChangesAsync();
+
+            return result;
+        }
+    }
+}
+
+
+@model ResAirvation.Common.DAL.ResAirVationDb.Coupon
+@{
+    ViewData["Title"] = "Kuponok";
+}
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card-header">
+                        <h4 class="m-0">Kupon adatai</h4>
+                    </div>
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="CouponCode" class="control-label mt-2 float-end">Kuponkód</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="CouponCode" class="form-control" placeholder="@Model.CouponCode">
+                                        <span asp-validation-for="CouponCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="ValidFrom" class="control-label mt-2 float-end">Érvényesség kezdete:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="ValidFrom" class="form-control" type="date" placeholder="@Model.ValidFrom" />
+                                        <span asp-validation-for="ValidFrom" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="ValidTo" class="control-label mt-2 float-end">Érvényesség vége:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="ValidTo" type="date" class="form-control" placeholder="@Model.ValidTo" />
+                                        <span asp-validation-for="ValidTo" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="DiscountPercent" class="control-label mt-2 float-end">Kedvezmény mértéke:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="DiscountPercent" type="number" class="form-control" placeholder="@Model.DiscountPercent" />
+                                        <span asp-validation-for="DiscountPercent" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>@*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="Isactive" class="control-label mt-2 float-end">Aktív-e?</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="IsActive" type="checkbox" />
+                                        <span asp-validation-for="IsActive" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="IsPublic" class="control-label mt-2 float-end">Maximum használat:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="MaxUsage" type="number" placeholder="@Model.MaxUsage" />
+                                        <span asp-validation-for="MaxUsage" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="DiscountFromDays" class="control-label mt-2 float-end">Kupon érvényes ennyi naptól:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="DiscountFromDays" type="number" placeholder="@Model.DiscountFromDays" />
+                                        <span asp-validation-for="DiscountFromDays" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*-----------------------------------------------------------------*@
+                        <div class="card-body">
+                            <div class="form-group my-1">
+                                <div class="row">
+                                    <div class="col-4 text-right p-0">
+                                        <label for="DiscountToDays" class="control-label mt-2 float-end">Kupon érvényes ennyi napig:</label>
+                                    </div>
+                                    <div class="col-8">
+                                        <input asp-for="DiscountToDays" type="number" placeholder="@Model.DiscountToDays" />
+                                        <span asp-validation-for="DiscountToDays" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group text-center">
+                            <button asp-controller="Coupons" asp-action="Create" formmethod="post" class="btn btn-primary">Létrehozás</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+
+
+
+
+
+
+
+
+    @using ResAirvation.Admin.Constants
+@model List<ResAirvation.Common.DAL.ResAirVationDb.Coupon>
+@{
+    ViewData["Title"] = "Kuponok";
+}
+
+<h2>
+    <i class="fa-fw fa-solid fa-barcode"></i>Kuponok
+
+
+    
+        <a asp-authpolicy="@Permissions.Settings.CouponCreate" href="@Url.Action("Create", "Coupons")" class="btn btn-primary float-end">Új kupon</a>
+    
+</h2>
+
+<div class="row">
+    <div class="col-sm-12 col-md-10">
+        <table class="table table-sm shadow-sm table-hover">
+            <thead>
+                <tr>
+                    <th class="text-center">Kuponkód</th>
+                    <th class="text-center">Érvényesség kezdete</th>
+                    <th class="text-center">Érvényesség vége</th>
+                    <th class="text-center">Kedvezmény (%)</th>
+                    <th class="text-center">Aktív-e</th>
+                    <th class="text-center">Maximum felhasználhatóság</th>
+                    <th class="text-center">Kupon érvényes ennyi naptól</th>
+                    <th class="text-center">Kupon érvényes ennyi napig</th>
+                    <th asp-authpolicy="@Permissions.Settings.CouponEdit" class="text-center">Szerkesztés</th>
+                    <th asp-authpolicy="@Permissions.Settings.CouponDelete" class="text-center">Törlés</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var coupon in Model)
+                {
+                    <tr>
+                        <td class="text-center">@coupon.CouponCode</td>
+                        <td class="text-center">@coupon.ValidFrom</td>
+                        <td class="text-center">@coupon.ValidTo</td>
+                        <td class="text-center">@coupon.DiscountPercent</td>
+                        <td class="text-center">
+                            @if (coupon.IsActive)
+                            {
+                                <i class="fa fa-solid fa-check-circle text-success"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-solid fa-circle-xmark text-danger"></i>
+                            }
+                        </td>
+                        <td class="text-center">@coupon.MaxUsage</td>
+                        <td class="text-center">@coupon.DiscountFromDays</td>
+                        <td class="text-center">@coupon.DiscountToDays</td>
+                        <td asp-authpolicy="@Permissions.Settings.CouponEdit" class="text-center"><a href="@Url.Action("Edit", "Coupons", new{Id = coupon.Id})" class="btn btn-primary btn-sm">Szerkesztés</a></td>
+                        <td asp-authpolicy="@Permissions.Settings.CouponDelete" class="text-center"><a href="@Url.Action("Delete", "Coupons", new{Id = coupon.Id})" class="btn btn-sm btn-danger">Törlés</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
